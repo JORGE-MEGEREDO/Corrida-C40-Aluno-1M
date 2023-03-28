@@ -32,16 +32,27 @@ class Game {
 
     // C40
     //criar novo grupo para fuels e powerCoins
-
+         fuels = new Group();
+         powerCoins = new Group();
     // Adicione o sprite de combustível ao jogo
-
+          this.addSprites(fuels, 4, fuelImage, 0.02);
     // Adicione o sprite de moeda ao jogo
+        this.addSprites(powerCoins, 18, powerCoinImage, 0.09);
   }
 
   // C40
   addSprites(spriteGroup, numberOfSprites, spriteImage, scale) {
     for (var i = 0; i < numberOfSprites; i++) {
-     
+      var x, y;
+      x = random(width / 2 + 150, width / 2 - 150);
+      y = random(-height * 4.5, height - 400);
+      
+      var sprite = createSprite(x, y);
+      sprite.addImage("sprite", spriteImage);
+      
+      sprite.scale = scale;
+      spriteGroup.add(sprite);
+      
     }
   }
 
@@ -74,6 +85,12 @@ class Game {
 
         // C40  Marcar o jogador atual com o ellipse/circulo vermelho
         if (index === player.index) {
+        stroke(10);
+        fill("red");
+        ellipse(x, y, 60, 60);
+
+        this.handleBush(index);
+        this.handleGrass(index);
           
 
         }
@@ -91,7 +108,11 @@ class Game {
 
   handleFuel(index) {
     // C40 Adicione o combustível como foi feito com as moedas (PowerCoins)
-   
+    animals[index - 1].overlap(fuels, function(collector, collected) {
+      player.fuel = 185;
+      collected.remove();
+
+       });
   }
 
   handlePowerCoins(index) {
